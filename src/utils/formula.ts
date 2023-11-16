@@ -1,7 +1,5 @@
-type RepaymentType = "等额本息" | "等额本金";
-
 // 计算几何均值
-function calculateGeometricMean(returns: number[]) {
+export function calculateGeometricMean(returns: number[]): number | undefined {
   // 确保数组不为空
   if (returns.length === 0) {
     return undefined;
@@ -18,7 +16,7 @@ function calculateGeometricMean(returns: number[]) {
 }
 
 // 定投指数计算方式
-function calculateInvestmentReturns(
+export function calculateInvestmentReturns(
   years: number,
   annualRate: number,
   monthlyInvestment: number,
@@ -47,16 +45,21 @@ function calculateInvestmentReturns(
       returns: (principal - monthlyInvestment * 12 * year).toFixed(2),
     });
   }
-  return returns;
+  console.log("returns", returns);
+  return returns[returns.length - 1];
 }
-
+export type MortgageType = {
+  firstMonthPayment: string;
+  totalInterest: string;
+  [key: string]: any;
+};
 // 房贷计算器
-function calculateMortgage(
+export function calculateMortgage(
   principal: number,
   loanTerm: number,
   annualRate: number,
-  repaymentType: RepaymentType,
-) {
+  repaymentType: string,
+): MortgageType {
   // 确保参数合法性
   if (principal <= 0 || loanTerm <= 0 || annualRate <= 0) {
     throw new Error("参数必须为正数。");
@@ -75,6 +78,10 @@ function calculateMortgage(
     return {
       firstMonthPayment: monthlyPayment.toFixed(2),
       totalInterest: totalInterest.toFixed(2),
+      principal,
+      loanTerm,
+      annualRate,
+      repaymentType,
     };
   } else if (repaymentType === "等额本金") {
     // 等额本金
@@ -90,6 +97,10 @@ function calculateMortgage(
     return {
       firstMonthPayment: firstMonthPayment.toFixed(2),
       totalInterest: totalInterest.toFixed(2),
+      principal,
+      loanTerm,
+      annualRate,
+      repaymentType,
     };
   } else {
     throw new Error("无效的还款方式。");

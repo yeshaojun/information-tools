@@ -1,20 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 1.定义组建
-import HomeView from "../components/HomeView.vue";
-
+const Info = () => import("@/views/home.vue");
+const House = () => import("@/views/house.vue");
+const Money = () => import("@/views/money.vue");
 // 2.定义路由
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeView,
+      redirect: "/info",
     },
     {
-      path: "/about",
-      name: "about",
-      component: () => import("../components/AboutView.vue"),
+      path: "/info",
+      name: "info",
+      component: Info,
+    },
+    {
+      path: "/house",
+      name: "house",
+      component: House,
+    },
+    {
+      path: "/money",
+      name: "money",
+      component: Money,
     },
   ],
 });
